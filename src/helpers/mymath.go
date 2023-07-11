@@ -6,9 +6,20 @@ import (
 
 var log = logrus.New()
 
+func init() {
+	log.SetFormatter(&logrus.TextFormatter{
+		DisableTimestamp: true,
+	})
+
+	log.SetLevel(logrus.DebugLevel)
+
+}
+
 func Add(a, b int) int {
 	result := a + b
-	log.Debugf("You are in the addition stage: %d", result)
+	log.WithFields(logrus.Fields{
+		"package": "mymath",
+	}).Debugf("You are in the addition stage: %d", result)
 	return result
 }
 
