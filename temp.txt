@@ -1,0 +1,87 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func performOperation(numbers, operator string) float64 {
+	operands := strings.Fields(numbers)
+	if len(operands) != 2 {
+		fmt.Println("Invalid input. Please provide two numbers separated by a space.")
+		return 0
+	}
+
+	operand1, err1 := strconv.ParseFloat(operands[0], 64)
+	operand2, err2 := strconv.ParseFloat(operands[1], 64)
+
+	if err1 != nil || err2 != nil {
+		fmt.Println("Invalid input. Please provide valid numbers.")
+		return 0
+	}
+
+	switch operator {
+	case "+":
+		return operand1 + operand2
+	case "-":
+		return operand1 - operand2
+	case "*":
+		return operand1 * operand2
+	case "/":
+		if operand2 == 0 {
+			fmt.Println("Division by zero is not allowed.")
+			return 0
+		}
+		return operand1 / operand2
+	default:
+		fmt.Println("Invalid operator.")
+		return 0
+	}
+}
+
+func main() {
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Println("Select an operation:")
+		fmt.Println("1. Add")
+		fmt.Println("2. Subtract")
+		fmt.Println("3. Multiply")
+		fmt.Println("4. Divide")
+		fmt.Println("0. Exit")
+
+		option, _ := reader.ReadString('\n')
+		option = strings.TrimSpace(option)
+
+		switch option {
+		case "1":
+			fmt.Println("Enter two numbers (separated by a space) to add:")
+			numbers, _ := reader.ReadString('\n')
+			result := performOperation(numbers, "+")
+			fmt.Println("Result:", result)
+		case "2":
+			fmt.Println("Enter two numbers (separated by a space) to subtract:")
+			numbers, _ := reader.ReadString('\n')
+			result := performOperation(numbers, "-")
+			fmt.Println("Result:", result)
+		case "3":
+			fmt.Println("Enter two numbers (separated by a space) to multiply:")
+			numbers, _ := reader.ReadString('\n')
+			result := performOperation(numbers, "*")
+			fmt.Println("Result:", result)
+		case "4":
+			fmt.Println("Enter two numbers (separated by a space) to divide:")
+			numbers, _ := reader.ReadString('\n')
+			result := performOperation(numbers, "/")
+			fmt.Println("Result:", result)
+		case "0":
+			fmt.Println("Exiting...")
+			return
+		default:
+			fmt.Println("Invalid option. Please try again.")
+		}
+	}
+}
